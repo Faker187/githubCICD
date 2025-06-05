@@ -9,5 +9,4 @@ jobs:
     
     steps:
       - name: Print variable
-        run: |
-          echo ${{ secrets.SECRET_NAME }}
+        run: echo "${{ secrets.SECRET_NAME }}"
