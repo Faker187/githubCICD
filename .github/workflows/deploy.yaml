@@ -1,12 +1,34 @@
-name: Deploy
+name: Example CI/CD
 on:
   push:
     branches:
       - master
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Print variable
-        run: echo "${{ secrets.SECRET_NAME }}"
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Run tests
+        run: npm run test
+      
+      - name: Run Builds
+        run: npm run build
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to GitHub Pages
+        run: |
+          echo "Deploying to GitHub Pages..."
