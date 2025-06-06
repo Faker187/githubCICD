@@ -25,11 +25,24 @@ jobs:
       - name: Run Builds
         run: npm run build
 
-  deploy:
-    runs-on: ubuntu-latest
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public/
 
+  deploy:
     needs: build
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment-pages.outputs.page-url }}
+
+    runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
-        run: |
-          echo "Deploying to GitHub Pages..."
+        id: deployment-pages
+        uses: actions/deploy-pages@v4
